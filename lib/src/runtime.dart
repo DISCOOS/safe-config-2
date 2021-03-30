@@ -1,7 +1,7 @@
 import 'dart:mirrors';
 
 import 'package:runtime_2/runtime_2.dart';
-import 'package:safe_config/src/configuration.dart';
+import 'package:safe_config_2/src/configuration.dart';
 
 import 'mirror_property.dart';
 
@@ -120,7 +120,7 @@ class ConfigurationRuntimeImpl extends ConfigurationRuntime implements SourceCom
   String compile(BuildContext ctx) {
     final directives = ctx.getImportDirectives(
         uri: type.originalDeclaration.location.sourceUri, alsoImportOriginalFile: true)
-      ..add("import 'package:safe_config/src/intermediate_exception.dart';");
+      ..add("import 'package:safe_config_2/src/intermediate_exception.dart';");
 
     return """${directives.join("\n")}    
 final instance = ConfigurationRuntimeImpl();    

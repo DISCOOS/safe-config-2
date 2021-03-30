@@ -1,5 +1,5 @@
 import 'package:runtime_2/runtime_2.dart';
-import 'package:safe_config/safe_config.dart';
+import 'package:safe_config_2/safe_config_2.dart';
 import 'package:test/test.dart';
 
 void main() {

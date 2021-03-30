@@ -18,7 +18,7 @@ Future main(List<String> args) async {
   for (File f in testFiles) {
     final makePrompt = () => "(Pass: $passCounter Fail: $failCounter Remain: $remainingCounter)";
     print("${makePrompt()} Loading test ${f.path}...");
-    final ctx = BuildContext(Directory.current.uri.resolve("lib/").resolve("safe_config.dart"),
+    final ctx = BuildContext(Directory.current.uri.resolve("lib/").resolve("safe_config_2.dart"),
         Directory.current.uri.resolve("build/"), Directory.current.uri.resolve("run"), f.readAsStringSync(),
         forTests: true);
     final bm = BuildManager(ctx);

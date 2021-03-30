@@ -1,7 +1,7 @@
 import 'dart:mirrors';
 
-import 'package:safe_config/src/configuration.dart';
-import 'package:safe_config/src/intermediate_exception.dart';
+import 'package:safe_config_2/src/configuration.dart';
+import 'package:safe_config_2/src/intermediate_exception.dart';
 
 class MirrorTypeCodec {
   MirrorTypeCodec(this.type) {
@@ -9,14 +9,14 @@ class MirrorTypeCodec {
       final klass = type as ClassMirror;
       final classHasDefaultConstructor = klass.declarations.values.any((dm) {
         return dm is MethodMirror &&
-          dm.isConstructor &&
-          dm.constructorName == const Symbol('') &&
-          dm.parameters.every((p) => p.isOptional == true);
+            dm.isConstructor &&
+            dm.constructorName == const Symbol('') &&
+            dm.parameters.every((p) => p.isOptional == true);
       });
 
       if (!classHasDefaultConstructor) {
         throw StateError(
-          "Failed to compile '${type.reflectedType}'\n\t-> 'Configuration' subclasses MUST declare an unnammed constructor (i.e. '${type.reflectedType}();') if they are nested.");
+            "Failed to compile '${type.reflectedType}'\n\t-> 'Configuration' subclasses MUST declare an unnammed constructor (i.e. '${type.reflectedType}();') if they are nested.");
       }
     }
   }
@@ -56,8 +56,7 @@ class MirrorTypeCodec {
   }
 
   Configuration _decodeConfig(dynamic object) {
-    final item = (type as ClassMirror)
-      .newInstance(const Symbol(""), []).reflectee as Configuration;
+    final item = (type as ClassMirror).newInstance(const Symbol(""), []).reflectee as Configuration;
 
     item.decode(object);
 
@@ -82,8 +81,7 @@ class MirrorTypeCodec {
   }
 
   Map<dynamic, dynamic> _decodeMap(Map value) {
-    final map = (type as ClassMirror)
-      .newInstance(const Symbol(""), []).reflectee as Map;
+    final map = (type as ClassMirror).newInstance(const Symbol(""), []).reflectee as Map;
 
     final innerDecoder = MirrorTypeCodec(type.typeArguments.last);
     value.forEach((key, val) {
@@ -173,7 +171,6 @@ return map;
   }
 
   String get _decodeConfigSource {
-
     return """
     final item = ${expectedType}();
 
@@ -181,7 +178,6 @@ return map;
 
     return item;
     """;
-
   }
 
   String get _decodeIntSource {
@@ -218,14 +214,10 @@ class MirrorConfigurationProperty {
 
   static bool _isVariableRequired(VariableMirror m) {
     final attribute = m.metadata
-        .firstWhere(
-            (im) =>
-                im.type.isSubtypeOf(reflectType(ConfigurationItemAttribute)),
-            orElse: () => null)
+        .firstWhere((im) => im.type.isSubtypeOf(reflectType(ConfigurationItemAttribute)), orElse: () => null)
         ?.reflectee as ConfigurationItemAttribute;
 
-    return attribute == null ||
-        attribute.type == ConfigurationItemAttributeType.required;
+    return attribute == null || attribute.type == ConfigurationItemAttributeType.required;
   }
 
   dynamic decode(dynamic input) {

@@ -4,7 +4,7 @@ import 'package:runtime_2/runtime_2.dart';
 import 'package:yaml/yaml.dart';
 import 'package:meta/meta.dart';
 
-import 'package:safe_config/src/intermediate_exception.dart';
+import 'package:safe_config_2/src/intermediate_exception.dart';
 
 /// Subclasses of [Configuration] read YAML strings and files, assigning values from the YAML document to properties
 /// of an instance of this type.

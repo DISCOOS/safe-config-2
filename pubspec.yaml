@@ -1,4 +1,4 @@
-name: safe_config
+name: safe_config_2
 description: A safe and convenient way to read YAML configuration files.
 version: 1.0.0
 author: DISCO Open Source <support@discoos.org>

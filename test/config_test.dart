@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:safe_config/safe_config.dart';
+import 'package:safe_config_2/safe_config_2.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -103,7 +103,8 @@ void main() {
       var _ = TopLevelConfiguration.fromString(yamlString);
       fail('unreachable');
     } on ConfigurationException catch (e) {
-      expect(e.toString(), allOf([contains("TopLevelConfiguration"), contains("unexpected keys found"), contains("'extraKey'")]));
+      expect(e.toString(),
+          allOf([contains("TopLevelConfiguration"), contains("unexpected keys found"), contains("'extraKey'")]));
     }
 
     try {
@@ -123,7 +124,8 @@ void main() {
       fail('unreachable');
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("TopLevelConfiguration"), contains("unexpected keys found"), contains("'extraKey'")]));
+      expect(e.toString(),
+          allOf([contains("TopLevelConfiguration"), contains("unexpected keys found"), contains("'extraKey'")]));
     }
   });
 
@@ -141,7 +143,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("TopLevelConfiguration"), contains("'port'")]));
+      expect(
+          e.toString(), allOf([contains("missing required"), contains("TopLevelConfiguration"), contains("'port'")]));
     }
 
     try {
@@ -159,7 +162,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("TopLevelConfiguration"), contains("'port'")]));
+      expect(
+          e.toString(), allOf([contains("missing required"), contains("TopLevelConfiguration"), contains("'port'")]));
     }
   });
 
@@ -171,7 +175,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("TopLevelConfiguration"), contains("'database'")]));
+      expect(e.toString(),
+          allOf([contains("missing required"), contains("TopLevelConfiguration"), contains("'database'")]));
     }
 
     try {
@@ -180,7 +185,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("TopLevelConfiguration"), contains("'database'")]));
+      expect(e.toString(),
+          allOf([contains("missing required"), contains("TopLevelConfiguration"), contains("'database'")]));
     }
   });
 
@@ -226,7 +232,8 @@ void main() {
       fail("unreachable");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'port'")]));
+      expect(
+          e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'port'")]));
     }
 
     try {
@@ -246,7 +253,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'port'")]));
+      expect(
+          e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'port'")]));
     }
   });
 
@@ -266,7 +274,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'extraValue'")]));
+      expect(e.toString(),
+          allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'extraValue'")]));
     }
 
     try {
@@ -286,7 +295,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'extraValue'")]));
+      expect(e.toString(),
+          allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'extraValue'")]));
     }
   });
 
@@ -306,7 +316,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'port'")]));
+      expect(
+          e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'port'")]));
     }
 
     try {
@@ -326,7 +337,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'port'")]));
+      expect(
+          e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'port'")]));
     }
   });
 
@@ -346,7 +358,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'extraDatabaseValue'")]));
+      expect(e.toString(),
+          allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'extraDatabaseValue'")]));
     }
 
     try {
@@ -366,7 +379,8 @@ void main() {
       fail("Should not succeed");
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'extraDatabaseValue'")]));
+      expect(e.toString(),
+          allOf([contains("missing required"), contains("ConfigurationSubclass"), contains("'extraDatabaseValue'")]));
     }
   });
 
@@ -659,7 +673,8 @@ void main() {
       expect(true, false);
     } on ConfigurationException catch (e) {
       print("$e");
-      expect(e.toString(), allOf([contains("missing"), contains("OptionalEmbeddedContainer"), contains("'databaseName'")]));
+      expect(e.toString(),
+          allOf([contains("missing"), contains("OptionalEmbeddedContainer"), contains("'databaseName'")]));
     }
   });
 
@@ -709,16 +724,16 @@ void main() {
     expect(config.database.port, 5432);
     expect(config.database.databaseName, "dbname");
   });
-  
+
   test("Assigning value of incorrect type to parsed integer emits error and field name", () {
     var yamlString = "port: foobar\n"
-      "name: foobar\n"
-      "database:\n"
-      "  host: stablekernel.com\n"
-      "  username: bob\n"
-      "  password: fred\n"
-      "  databaseName: dbname\n"
-      "  port: 5000";
+        "name: foobar\n"
+        "database:\n"
+        "  host: stablekernel.com\n"
+        "  username: bob\n"
+        "  password: fred\n"
+        "  databaseName: dbname\n"
+        "  port: 5000";
 
     try {
       TopLevelConfiguration.fromString(yamlString);
@@ -733,14 +748,14 @@ void main() {
 
   test("Assigning value of incorrect type to nested field emits error and field name", () {
     var yamlString = "port: 1000\n"
-      "name: foobar\n"
-      "database:\n"
-      "  host: stablekernel.com\n"
-      "  username:\n"
-      "    - item\n"
-      "  password: password\n"
-      "  databaseName: dbname\n"
-      "  port: 5000";
+        "name: foobar\n"
+        "database:\n"
+        "  host: stablekernel.com\n"
+        "  username:\n"
+        "    - item\n"
+        "  password: password\n"
+        "  databaseName: dbname\n"
+        "  port: 5000";
 
     try {
       TopLevelConfiguration.fromString(yamlString);
@@ -917,7 +932,6 @@ class EnvironmentConfiguration extends Configuration {
 }
 
 class StaticVariableConfiguration extends Configuration {
-
   StaticVariableConfiguration();
 
   StaticVariableConfiguration.fromString(String contents) : super.fromString(contents);
