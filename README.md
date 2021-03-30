@@ -1,4 +1,14 @@
-# safe_config
+[StableKernel](https://stablekernel.com/) has
+[discontinued Aqueduct](https://stablekernel.com/article/announcing-the-sunsetting-of-aqueduct-our-open-source-server-side-framework-in-googles-dart/),
+along with other packages which aqueduct depends on. This [package](https://github.com/DISCOOS/safe-config-2)
+is a fork maintained by [DISCO Open Source](https://discoos.org).
+
+***
+
+# safe_config_2
+
+[![Build Status](https://www.travis-ci.com/DISCOOS/safe-config-2.svg?branch=master)](https://www.travis-ci.com/DISCOOS/safe-config-2)
+
 
 A library to add type and name safety to YAML configuration files.
 
@@ -159,4 +169,4 @@ See the tests for more examples.
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: http://github.com/stablekernel/safe_config/issues
+[tracker]: http://github.com/DÆISCOOS/safe-config-2/issues
