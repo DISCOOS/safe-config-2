@@ -1,12 +1,11 @@
 import 'dart:mirrors';
 
-import 'package:runtime/runtime.dart';
+import 'package:runtime_2/runtime_2.dart';
 import 'package:safe_config/src/configuration.dart';
 
 import 'mirror_property.dart';
 
-class ConfigurationRuntimeImpl extends ConfigurationRuntime
-    implements SourceCompiler {
+class ConfigurationRuntimeImpl extends ConfigurationRuntime implements SourceCompiler {
   ConfigurationRuntimeImpl(this.type) {
     properties = _properties;
   }
@@ -24,12 +23,10 @@ class ConfigurationRuntimeImpl extends ConfigurationRuntime
         return;
       }
 
-      var decodedValue =
-          tryDecode(configuration, name, () => property.decode(takingValue));
+      var decodedValue = tryDecode(configuration, name, () => property.decode(takingValue));
 
       if (!reflect(decodedValue).type.isAssignableTo(property.property.type)) {
-        throw ConfigurationException(configuration, "input is wrong type",
-            keyPath: [name]);
+        throw ConfigurationException(configuration, "input is wrong type", keyPath: [name]);
       }
 
       final mirror = reflect(configuration);
@@ -37,8 +34,8 @@ class ConfigurationRuntimeImpl extends ConfigurationRuntime
     });
 
     if (values.isNotEmpty) {
-      throw ConfigurationException(configuration,
-          "unexpected keys found: ${values.keys.map((s) => "'$s'").join(", ")}.");
+      throw ConfigurationException(
+          configuration, "unexpected keys found: ${values.keys.map((s) => "'$s'").join(", ")}.");
     }
   }
 
@@ -50,11 +47,9 @@ class ConfigurationRuntimeImpl extends ConfigurationRuntime
       buf.writeln("{");
       buf.writeln("final v = Configuration.getEnvironmentOrValue(valuesCopy.remove('$k'));");
       buf.writeln("if (v != null) {");
-      buf.writeln(
-          "  final decodedValue = tryDecode(configuration, '$k', () { ${v.source} });");
+      buf.writeln("  final decodedValue = tryDecode(configuration, '$k', () { ${v.source} });");
       buf.writeln("  if (decodedValue is! ${v.codec.expectedType}) {");
-      buf.writeln(
-          "    throw ConfigurationException(configuration, 'input is wrong type', keyPath: ['$k']);");
+      buf.writeln("    throw ConfigurationException(configuration, 'input is wrong type', keyPath: ['$k']);");
       buf.writeln("  }");
       buf.writeln(
           "  (configuration as ${type.reflectedType.toString()}).$k = decodedValue as ${v.codec.expectedType};");
@@ -81,8 +76,7 @@ class ConfigurationRuntimeImpl extends ConfigurationRuntime
         .toList();
 
     if (requiredValuesThatAreMissing.isNotEmpty) {
-      throw ConfigurationException.missingKeys(
-          configuration, requiredValuesThatAreMissing);
+      throw ConfigurationException.missingKeys(configuration, requiredValuesThatAreMissing);
     }
   }
 
@@ -91,9 +85,8 @@ class ConfigurationRuntimeImpl extends ConfigurationRuntime
 
     var ptr = type;
     while (ptr.isSubclassOf(reflectClass(Configuration))) {
-      declarations.addAll(ptr.declarations.values
-          .whereType<VariableMirror>()
-          .where((vm) => !vm.isStatic && !vm.isPrivate));
+      declarations
+          .addAll(ptr.declarations.values.whereType<VariableMirror>().where((vm) => !vm.isStatic && !vm.isPrivate));
       ptr = ptr.superclass;
     }
 
@@ -111,15 +104,13 @@ class ConfigurationRuntimeImpl extends ConfigurationRuntime
     buf.writeln("final missingKeys = <String>[];");
     properties.forEach((name, property) {
       if (property.isRequired) {
-        buf.writeln(
-            "if ((configuration as ${type.reflectedType.toString()}).$name == null) {");
+        buf.writeln("if ((configuration as ${type.reflectedType.toString()}).$name == null) {");
         buf.writeln("  missingKeys.add('$name');");
         buf.writeln("}");
       }
     });
     buf.writeln("if (missingKeys.isNotEmpty) {");
-    buf.writeln(
-        "  throw ConfigurationException.missingKeys(configuration, missingKeys);");
+    buf.writeln("  throw ConfigurationException.missingKeys(configuration, missingKeys);");
     buf.writeln("}");
 
     return buf.toString();
@@ -128,8 +119,7 @@ class ConfigurationRuntimeImpl extends ConfigurationRuntime
   @override
   String compile(BuildContext ctx) {
     final directives = ctx.getImportDirectives(
-        uri: type.originalDeclaration.location.sourceUri,
-        alsoImportOriginalFile: true)
+        uri: type.originalDeclaration.location.sourceUri, alsoImportOriginalFile: true)
       ..add("import 'package:safe_config/src/intermediate_exception.dart';");
 
     return """${directives.join("\n")}    

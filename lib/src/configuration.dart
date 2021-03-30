@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:runtime/runtime.dart';
+import 'package:runtime_2/runtime_2.dart';
 import 'package:yaml/yaml.dart';
 import 'package:meta/meta.dart';
 
@@ -19,8 +19,7 @@ abstract class Configuration {
   /// [contents] must be YAML.
   Configuration.fromString(String contents) {
     final yamlMap = loadYaml(contents) as Map<dynamic, dynamic>;
-    final map =
-        yamlMap.map<String, dynamic>((k, v) => MapEntry(k.toString(), v));
+    final map = yamlMap.map<String, dynamic>((k, v) => MapEntry(k.toString(), v));
     decode(map);
   }
 
@@ -29,16 +28,14 @@ abstract class Configuration {
   /// [file] must contain valid YAML data.
   Configuration.fromFile(File file) : this.fromString(file.readAsStringSync());
 
-  ConfigurationRuntime get _runtime =>
-      RuntimeContext.current[runtimeType] as ConfigurationRuntime;
+  ConfigurationRuntime get _runtime => RuntimeContext.current[runtimeType] as ConfigurationRuntime;
 
   /// Ingests [value] into the properties of this type.
   ///
   /// Override this method to provide decoding behavior other than the default behavior.
   void decode(dynamic value) {
     if (value is! Map) {
-      throw ConfigurationException(
-          this, "input is not an object (is a '${value.runtimeType}')");
+      throw ConfigurationException(this, "input is not an object (is a '${value.runtimeType}')");
     }
 
     _runtime.decode(this, value as Map);
@@ -78,8 +75,7 @@ abstract class ConfigurationRuntime {
     try {
       return decode();
     } on ConfigurationException catch (e) {
-      throw ConfigurationException(configuration, e.message,
-        keyPath: [name]..addAll(e.keyPath));
+      throw ConfigurationException(configuration, e.message, keyPath: [name]..addAll(e.keyPath));
     } on IntermediateException catch (e) {
       final underlying = e.underlying;
       if (underlying is ConfigurationException) {
@@ -88,18 +84,14 @@ abstract class ConfigurationRuntime {
           e.keyPath,
           underlying.keyPath
         ].expand((i) => i).toList();
-        throw ConfigurationException(configuration, underlying.message,
-          keyPath: keyPaths);
+        throw ConfigurationException(configuration, underlying.message, keyPath: keyPaths);
       } else if (underlying is CastError) {
-        throw ConfigurationException(configuration, "input is wrong type",
-          keyPath: [name]..addAll(e.keyPath));
+        throw ConfigurationException(configuration, "input is wrong type", keyPath: [name]..addAll(e.keyPath));
       }
 
-      throw ConfigurationException(configuration, underlying.toString(),
-        keyPath: [name]..addAll(e.keyPath));
+      throw ConfigurationException(configuration, underlying.toString(), keyPath: [name]..addAll(e.keyPath));
     } catch (e) {
-      throw ConfigurationException(configuration, e.toString(),
-        keyPath: [name]);
+      throw ConfigurationException(configuration, e.toString(), keyPath: [name]);
     }
   }
 }
@@ -132,13 +124,10 @@ const ConfigurationItemAttribute optionalConfiguration =
 
 /// Thrown when reading data into a [Configuration] fails.
 class ConfigurationException {
-  ConfigurationException(this.configuration, this.message,
-      {this.keyPath = const []});
+  ConfigurationException(this.configuration, this.message, {this.keyPath = const []});
 
-  ConfigurationException.missingKeys(
-      this.configuration, List<String> missingKeys, {this.keyPath = const []})
-      : message =
-            "missing required key(s): ${missingKeys.map((s) => "'$s'").join(", ")}";
+  ConfigurationException.missingKeys(this.configuration, List<String> missingKeys, {this.keyPath = const []})
+      : message = "missing required key(s): ${missingKeys.map((s) => "'$s'").join(", ")}";
 
   /// The [Configuration] in which this exception occurred.
   final Configuration configuration;

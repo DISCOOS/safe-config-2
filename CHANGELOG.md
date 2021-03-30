@@ -1,4 +1,15 @@
 # Changelog
+[Fork](https://github.com/DISCOOS/safe-config-2)
+managed by [DISCO Open Source](https://www.discoos.org)
+
+## 1.0.0
+
+- Changed library name to safe_config_2 (breaking change)
+- Upgraded dependencies to latest non-null safe versions
+
+Prior versions (safe_config)
+=======================
+Versions of [safe_config](https://pub.dev/packages/safe_config)
 
 # 3.0.0-b1
 
